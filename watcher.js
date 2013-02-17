@@ -25,28 +25,30 @@
 		inTypes:
 			for(var type in events)
 			{
-				if(events.hasOwnProperty(type) && events[type])
+				if(events.hasOwnProperty(type))
 				{
 					ev = events[type];
-					for(var selector in ev)
+					if(ev)
 					{
-						if(ev.hasOwnProperty(selector) && ev[selector])
+						for(var selector in ev)
 						{
-							if(!ev.RUNNING)
+							if(ev.hasOwnProperty(selector) && ev[selector])
 							{
-								ev.RUNNING = true;
-								main.on(type,watcher);
+								if(!ev.RUNNING)
+								{
+									ev.RUNNING = true;
+									main.on(type,watcher);
+								}
+								continue inTypes;
 							}
-							continue inTypes;
 						}
+						ev.RUNNING = false;
+						main.off(type,watcher);
 					}
-					ev.RUNNING = false;
-					main.off(type,watcher);
-				}
-				else
-				{
-					ev.RUNNING = false;
-					main.off(type,watcher);
+					else
+					{
+						main.off(type,watcher);
+					}
 				}
 			}
 		},
