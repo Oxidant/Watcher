@@ -1,7 +1,7 @@
 (function($){
 	var events = {},
 		destroy = function(type,selector,callback){
-			debugger;
+			//debugger;
 			var funcList = events[type][selector],
 				length = funcList.length;
 
@@ -22,6 +22,7 @@
 			var main = $(window),
 				ev;
 
+		inTypes:
 			for(var type in events)
 			{
 				if(events.hasOwnProperty(type) && events[type])
@@ -31,10 +32,20 @@
 					{
 						if(ev.hasOwnProperty(selector) && ev[selector])
 						{
-							main.on(type,watcher);
-							break;
+							if(!ev.RUNNING)
+							{
+								ev.RUNNING = true;
+								main.on(type,watcher);
+							}
+							continue inTypes;
 						}
 					}
+					ev.RUNNING = false;
+					main.off(type,watcher);
+				}
+				else
+				{
+					ev.RUNNING = false;
 					main.off(type,watcher);
 				}
 			}
@@ -88,9 +99,10 @@
 
 				for(var i = 0; i < funcList.length; i++)
 				{
-					setTimeout(function(){
+					setTimeout(function(i){
+						return function(){
 							callbackList[i](e);
-						},10);
+						}}(i),10);
 				}
 			}
 		}
@@ -99,7 +111,7 @@
 	{
 		if( !events[type] )
 		{
-			events[type] = {};
+			events[type] = {RUNNING:false,COUNT:0};
 		}
 
 		if(!events[type][this.selector])
