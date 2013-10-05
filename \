@@ -1,6 +1,5 @@
 (function($){
-    //TODO: @Oxidant *test* CodeNotes;
-    //FIXME: @oxidant test @2@ haha
+    //@TODO: test CodeNotes;
 	var events = {},
 		destroy = function(type,selector,callback){
 			//debugger;
