@@ -1,10 +1,11 @@
 (function($){
+    //@TODO: test CodeNotes;
 	var events = {},
 		destroy = function(type,selector,callback){
 			//debugger;
 			var funcList = events[type][selector],
 				length = funcList.length;
-
+//TODO: gain test
 			for(var i = 0; i < length; i ++)
 			{
 				if(callback == funcList[i])
@@ -21,7 +22,7 @@
 		init = function(){
 			var main = $(window),
 				ev;
-
+//NOTE: HMM cool code
 		inTypes:
 			for(var type in events)
 			{
@@ -98,7 +99,7 @@
 						}
 					}
 				}
-
+//TODO: Delete all notes;
 				for(var i = 0; i < funcList.length; i++)
 				{
 					setTimeout(function(i){
